@@ -11,3 +11,6 @@ def simple_render(name="img_0001"):
     s.eevee.taa_samples = 16
     bpy.ops.render.render(write_still=True)
     return s.render.resolution_x, s.render.resolution_y
+
+
+RENDER_METHODS = {"fast": simple_render}
