@@ -90,7 +90,7 @@ info = {
     "version": "1",
     "description": "Dataset from Blender-Generated Boxes",
     "contributor": "BTB GmbH",
-    "date_created": datetime.datetime,
+    "date_created": datetime.datetime.now().isoformat(sep=" ", timespec="seconds"),
 }
 
 licenses = [
@@ -150,9 +150,9 @@ class CocoJsonBuilder:
                 {
                     "info": self.info,
                     "licenses": self.licenses,
+                    "categories": self.categories,
                     "images": self.images,
                     "annotations": self.annotations,
-                    "categories": self.categories,
                 },
                 f,
                 indent=2,
@@ -160,13 +160,13 @@ class CocoJsonBuilder:
 
 
 class AnnotatedImage:
-    def __init__(
-        self, file_name="", height=0, width=0, date_captured=datetime.datetime
-    ):
+    def __init__(self, file_name="", height=0, width=0):
         self.file_name = file_name
         self.height = height
         self.width = width
-        self.date_captured = date_captured
+        self.date_captured = datetime.datetime.now().isoformat(
+            sep=" ", timespec="seconds"
+        )
         self.annotations = []
 
     def add_annotation(self, bbox, name):
@@ -187,7 +187,6 @@ class AnnotatedImage:
 
 
 def extract_cat(text):
-    m = re.search(r"/[^.]*/", text)
-    if not m:
+    if not isinstance(text, str):
         return None
-    return m.group(0)
+    return text.split(".", 1)[0]

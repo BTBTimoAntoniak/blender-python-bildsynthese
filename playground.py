@@ -25,6 +25,7 @@ import boxes
 import camera
 import light
 import render
+from obj_to_cocojson import AnnotatedImage, CocoJsonBuilder
 
 
 def generate_foldername():
@@ -33,8 +34,8 @@ def generate_foldername():
 
 
 # Parameter: Anzahl Box-Konfigurationen und Render pro Konfiguration
-num_box_configs = 1
-num_renders_per_config = 5
+num_box_configs = 2
+num_renders_per_config = 2
 
 box_types = ["Kiste_Blau", "Kiste_Gruen"]
 
@@ -44,6 +45,9 @@ if not os.path.exists(output_root):
 
 run_folder = os.path.join(output_root, generate_foldername())
 os.makedirs(run_folder)
+
+output = CocoJsonBuilder()
+output.set_categories(box_types)
 
 for box_idx in range(num_box_configs):
     # Boxen generieren
@@ -65,27 +69,24 @@ for box_idx in range(num_box_configs):
 
         # Rendern und speichern
         bpy.context.scene.render.filepath = img_path
-        render.simple_render(name=img_name)
+
+        img_w, img_h = render.simple_render(name=img_name)
+
+        ann_img = AnnotatedImage(
+            file_name=os.path.join(box_folder, img_name),
+            height=img_h,
+            width=img_w,
+        )
 
         # Bounding Boxes berechnen und speichern
         scene = bpy.context.scene
         stapel = [o for o in scene.objects if o.type == "MESH"]
         cam = scene.camera
-        results = []
-        for kiste in stapel:
-            kiste.bbox = bounding_box.object_bbox_in_image(scene, cam, kiste)
-            entry = {
-                "name": kiste.name,
-                "bbox": None
-                if kiste.bbox is None
-                else {
-                    "x": kiste.bbox[0],
-                    "y": kiste.bbox[1],
-                    "w": kiste.bbox[2],
-                    "h": kiste.bbox[3],
-                },
-            }
-            results.append(entry)
 
-        with open(bbox_path, "w", encoding="utf-8") as f:
-            json.dump(results, f, indent=2)
+        for kiste in stapel:
+            bbox = bounding_box.object_bbox_in_image(scene, cam, kiste)
+            ann_img.add_annotation(bbox=bbox, name=kiste.name)
+
+        output.add_annotated_image(ann_img)
+
+output.export_self_to_cocojson(dir=run_folder)
