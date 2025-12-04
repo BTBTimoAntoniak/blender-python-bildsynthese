@@ -2,7 +2,6 @@ import os
 import sys
 
 import bpy
-from config import Config
 
 if bpy.data.is_saved:
     proj_dir = os.path.dirname(bpy.data.filepath)  # Ordner der .blend
@@ -24,6 +23,7 @@ import boxes
 import camera
 import light
 import render
+from config import Config
 from obj_to_cocojson import AnnotatedImage, CocoJsonBuilder
 
 
@@ -31,12 +31,13 @@ def generate_foldername():
     now = datetime.now()
     return "run_" + now.strftime("%Y%m%d_%H%M%S")
 
-def generate_trainingdata(cfg: Config)
+
+def generate_trainingdata(cfg: Config):
     # Parameter: Anzahl Box-Konfigurationen und Render pro Konfiguration
     num_box_configs = cfg.generated_scenes
     num_renders_per_config = cfg.imgs_per_scene
 
-    #box_types = ["Kiste_Blau", "Kiste_Gruen"]
+    # box_types = ["Kiste_Blau", "Kiste_Gruen"]
     box_types = cfg.box_types
 
     output_root = os.path.join(proj_dir, "outputs")
@@ -51,7 +52,9 @@ def generate_trainingdata(cfg: Config)
 
     for box_idx in range(num_box_configs):
         # Boxen generieren
-        boxes.place_random_boxes(box_types, min=cfg.stack_height_min, max=cfg.stack_height_max)
+        boxes.place_random_boxes(
+            box_types, min=cfg.stack_height_min, max=cfg.stack_height_max
+        )
         box_folder = os.path.join(run_folder, f"boxes_{box_idx:03d}")
         os.makedirs(box_folder)
 
@@ -91,4 +94,5 @@ def generate_trainingdata(cfg: Config)
 
     output.export_self_to_cocojson(dir=run_folder)
 
-generate_trainingdata(Config()) #laufen lassen mit Default-Config (darin werden auch args gecheckt)
+cfg1 = Config(box_types=["Kiste_Blau", "Kiste_Gruen"])
+generate_trainingdata(cfg1)  # laufen lassen mit Default-Config (darin werden auch args gecheckt)
