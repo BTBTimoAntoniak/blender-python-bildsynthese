@@ -42,4 +42,6 @@ def run(
     if box_types:
         args += ["--box-types"] + [str(bt) for bt in box_types]
 
+    print(args)
+
     subprocess.run(args, check=True)
