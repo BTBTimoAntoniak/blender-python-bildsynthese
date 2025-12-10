@@ -3,6 +3,7 @@ import subprocess
 blender = (
     "blender"  # z.B. "/usr/bin/blender" oder r"C:\Program Files\Blender\blender.exe"
 )
+blend_file = "blender-python-bildsynthese/playground.blend"
 script = "blender-python-bildsynthese/playground.py"
 
 
@@ -17,6 +18,7 @@ def run(
     args = [
         blender,
         "--background",  # headless
+        blend_file,
         "--python",
         script,
         "--",  # alles danach landet in sys.argv im Blender‑Script
