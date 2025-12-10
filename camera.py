@@ -1,24 +1,26 @@
-import bpy
 import math
 import random
+
+import bpy
 from mathutils import Vector
 
 
 def place_random_camera(radius=500, hoehe=180):
+    bpy.ops.object.select_all(action="SELECT")
 
-    bpy.ops.object.select_all(action='SELECT') 
-
-    objs = [o for o in bpy.context.selected_objects if o.type in {'MESH'}]
+    objs = [o for o in bpy.context.selected_objects if o.type in {"MESH"}]
     if not objs:
         raise RuntimeError("Keine Objekte ausgewählt.")
 
-    center = Vector((0,0,0))
+    center = Vector((0, 0, 0))
     for o in objs:
-        center += o.matrix_world.translation  # echte Weltposition, auch bei Parenting korrekt
+        center += (
+            o.matrix_world.translation
+        )  # echte Weltposition, auch bei Parenting korrekt
     center /= len(objs)
 
     bpy.context.scene.cursor.location = center
-    print("Cursor gesetzt auf:", center)
+    # print("Cursor gesetzt auf:", center)
 
     different_cameras = 1
 
@@ -40,7 +42,7 @@ def place_random_camera(radius=500, hoehe=180):
         # Kamera zum Objekt ausrichten ("track to" - schauen auf (0,0,0))
         ziel = center
         richtung = ziel - cam.location
-        rot_quat = richtung.to_track_quat('-Z', 'Y')
+        rot_quat = richtung.to_track_quat("-Z", "Y")
         cam.rotation_euler = rot_quat.to_euler()
 
         # Als Szenenkamera setzen
@@ -50,6 +52,7 @@ def place_random_camera(radius=500, hoehe=180):
         cam.hide_render = False
         s.camera = cam
 
+
 def delete_cameras():
-    bpy.ops.object.select_by_type(type='CAMERA')
+    bpy.ops.object.select_by_type(type="CAMERA")
     bpy.ops.object.delete()

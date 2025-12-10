@@ -25,7 +25,7 @@ def place_random_boxes(box_types, min=5, max=100):
         for box_idx in range(stack_size):
             box_type = random.choice(box_types)
             obj_path = os.path.join(boxes_blend, "Object", box_type)
-            print(box_type)
+            # print(box_type)
             bpy.ops.wm.append(
                 filepath=obj_path,
                 directory=os.path.join(boxes_blend, "Object"),

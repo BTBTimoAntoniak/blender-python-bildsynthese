@@ -94,5 +94,7 @@ def generate_trainingdata(cfg: Config):
     output.export_self_to_cocojson(dir=run_folder)
 
 
-cfg1 = Config(box_types=["Kiste_Blau", "Kiste_Gruen"])
-# generate_trainingdata(cfg1)  # laufen lassen mit Default-Config (darin werden auch args gecheckt)
+cfg1 = Config()
+generate_trainingdata(
+    cfg1
+)  # laufen lassen mit Default-Config (darin werden auch args gecheckt)
