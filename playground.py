@@ -95,6 +95,4 @@ def generate_trainingdata(cfg: Config):
 
 
 cfg1 = Config(box_types=["Kiste_Blau", "Kiste_Gruen"])
-generate_trainingdata(
-    cfg1
-)  # laufen lassen mit Default-Config (darin werden auch args gecheckt)
+# generate_trainingdata(cfg1)  # laufen lassen mit Default-Config (darin werden auch args gecheckt)
