@@ -1,6 +1,8 @@
 import subprocess
 
-blender = "/path/to/blender"  # z.B. "/usr/bin/blender" oder r"C:\Program Files\Blender\blender.exe"
+blender = (
+    "blender"  # z.B. "/usr/bin/blender" oder r"C:\Program Files\Blender\blender.exe"
+)
 script = "playground.py"
 
 
