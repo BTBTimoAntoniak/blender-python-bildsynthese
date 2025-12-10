@@ -22,7 +22,6 @@ import bounding_box
 import boxes
 import camera
 import light
-import render
 from config import Config
 from obj_to_cocojson import AnnotatedImage, CocoJsonBuilder
 
@@ -94,5 +93,8 @@ def generate_trainingdata(cfg: Config):
 
     output.export_self_to_cocojson(dir=run_folder)
 
+
 cfg1 = Config(box_types=["Kiste_Blau", "Kiste_Gruen"])
-generate_trainingdata(cfg1)  # laufen lassen mit Default-Config (darin werden auch args gecheckt)
+generate_trainingdata(
+    cfg1
+)  # laufen lassen mit Default-Config (darin werden auch args gecheckt)
