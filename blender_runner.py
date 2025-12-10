@@ -25,21 +25,21 @@ def run(
     ]
 
     if stack_height_min is not None:
-        args += [" --stack-height-min", str(stack_height_min)]
+        args += ["--stack-height-min", str(stack_height_min)]
 
     if stack_height_max is not None:
-        args += [" --stack-height-max", str(stack_height_max)]
+        args += ["--stack-height-max", str(stack_height_max)]
 
     if generated_scenes is not None:
-        args += [" --generated-scenes", str(generated_scenes)]
+        args += ["--generated-scenes", str(generated_scenes)]
 
     if imgs_per_scene is not None:
-        args += [" --imgs-per-scene", str(imgs_per_scene)]
+        args += ["--imgs-per-scene", str(imgs_per_scene)]
 
     if render_method is not None:
-        args += [" --render-method", str(render_method)]
+        args += ["--render-method", str(render_method)]
 
     if box_types:
-        args += [" --box-types"] + [str(bt) for bt in box_types]
+        args += ["--box-types"] + [str(bt) for bt in box_types]
 
     subprocess.run(args, check=True)
