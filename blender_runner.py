@@ -3,7 +3,7 @@ import subprocess
 blender = (
     "blender"  # z.B. "/usr/bin/blender" oder r"C:\Program Files\Blender\blender.exe"
 )
-script = "playground.py"
+script = "blender-python-bildsynthese/playground.py"
 
 
 def run(
